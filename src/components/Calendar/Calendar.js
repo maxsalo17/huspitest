@@ -7,9 +7,6 @@ class DataItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            flaged: this.props.flaged,
-            disabled: false,
-            showModal: false
         }
     }
 
@@ -26,7 +23,6 @@ class DataItem extends React.Component {
             showModal: true
         });
 
-
     }
 
     closeModal = () => {
@@ -36,12 +32,20 @@ class DataItem extends React.Component {
         });
     }
 
-    saveModal = () => {
+    saveModal = (name) => {
+        this.setState({
+            note: name
+        },
+        function(){
+            return this.state.note;
+        }
+    );
+        
         this.setFlaged();
         this.closeModal();
     }
 
-        
+   
 
 
     render() {
@@ -49,14 +53,16 @@ class DataItem extends React.Component {
         let isFlaged = this.state.flaged;
         let disabled = this.props.disabled;
         disabled ? Name = "disabled" : (isFlaged ? Name = "dateContainer flaged" : Name = "dateContainer");
-
-
         return (
             <td>
                 <div className={Name} onClick={this.showModal}>
-                    <div className="dateDay">{this.props.day}</div>
+                    <div className="tooltip">
+                        <p>Events:</p>
+                        <p>{this.state.note}</p>
+                    </div>
+                    <div className="dateDay">{this.props.day}</div>    
                 </div>
-                <Modal name="Add/Edit note" submitText="Save" cancelText="Cancel" onAccept={this.saveModal} onClose={this.closeModal} isShown={this.state.showModal} />
+                <Modal name="Add/Edit note" submitText="Save" text={this.state.note} cancelText="Cancel" onSave={this.saveModal} onClose={this.closeModal} isShown={this.state.showModal} />
             </td>
         );
     }
