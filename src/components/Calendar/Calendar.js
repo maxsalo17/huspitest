@@ -1,56 +1,81 @@
 import React from 'react';
 import './Calendar.css';
+import Modal from '../Modal/Modal';
 
-class DataItem extends React.Component{
+class DataItem extends React.Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      flaged: false,
-      disabled: false,
-      note: ""
-    }
-  }
-  
-  setFlaged = () =>{
-    this.setState({
-      flaged: !this.state.flaged
-    })
-  }
-
-  render(){
-    let Name = "dateContainer";
-    let isFlaged = this.state.flaged;
-    let disabled = this.props.disabled;
-    disabled?Name="disabled":(isFlaged?Name="dateContainer flaged" : Name="dateContainer");
-  
-  
-    return(
-      <td>
-        <div className={Name} onClick={this.setFlaged}>
-          <div className="dateDay" >{this.props.day}</div>
-        </div>
-      </td>
-    );
-    }
-  }
-
-    
- 
-class Calendar extends React.Component{
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            date: new Date()
-            
+        this.state = {
+            flaged: this.props.flaged,
+            disabled: false,
+            showModal: false
         }
     }
 
-    months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    setFlaged = () => {
+        this.setState({
+            flaged: !this.state.flaged
+        })
+    }
 
-    getDaysNum = () =>{
-        let date = new Date(this.state.date.getFullYear(), this.state.date.getMonth()+1, 0);
+    showModal = () => {
+
+        this.setState({
+            ...this.state,
+            showModal: true
+        });
+
+
+    }
+
+    closeModal = () => {
+        this.setState({
+            ...this.state,
+            showModal: false
+        });
+    }
+
+    saveModal = () => {
+        this.setFlaged();
+        this.closeModal();
+    }
+
         
+
+
+    render() {
+        let Name = "dateContainer";
+        let isFlaged = this.state.flaged;
+        let disabled = this.props.disabled;
+        disabled ? Name = "disabled" : (isFlaged ? Name = "dateContainer flaged" : Name = "dateContainer");
+
+
+        return (
+            <td>
+                <div className={Name} onClick={this.showModal}>
+                    <div className="dateDay">{this.props.day}</div>
+                </div>
+                <Modal name="Add/Edit note" submitText="Save" cancelText="Cancel" onAccept={this.saveModal} onClose={this.closeModal} isShown={this.state.showModal} />
+            </td>
+        );
+    }
+}
+
+
+
+class Calendar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            date: new Date()
+        }
+    }
+
+
+    getDaysNum = () => {
+        let date = new Date(this.state.date.getFullYear(), this.state.date.getMonth() + 1, 0);
+
         return date.getDate();
     }
 
@@ -61,50 +86,54 @@ class Calendar extends React.Component{
     }
 
     getMonthName = () => {
-        return this.months[this.state.date.getMonth()];
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        return months[this.state.date.getMonth()];
     }
 
-    nextMonth = () =>{
-            
+    nextMonth = () => {
+
         this.setState({
             date: new Date(this.state.date.getFullYear(), this.state.date.getMonth() + 1, 1)
         });
-        
-        
-        
+
+
+
     }
 
-    prevMonth = () =>{
-            
+    prevMonth = () => {
+
         this.setState({
             date: new Date(this.state.date.getFullYear(), this.state.date.getMonth() - 1, 1)
         });
-        
-        
+
+
     }
 
-    buildMonthTable = () =>{
+    buildMonthTable = () => {
         let weekDay = this.getFirstWeekDay();
         let daysNum = this.getDaysNum();
         const weeks = 6;
         const days = 7;
         let day = 0;
         let tableWeeks = [], tableDays = [];
-        
-    
-        for(let l =0 ; l<weeks; l++){
+
+
+        for (let l = 0; l < weeks; l++) {
             tableDays = [];
-            for(let i=0; i<days; i++){
-                if(i<weekDay||day>=daysNum){         
+            for (let i = 0; i < days; i++) {
+
+                if (i < weekDay || day >= daysNum) {
                     tableDays.push(
-                        <DataItem disabled={true}/>
+                        <DataItem disabled={true} flaged={false} />
                     );
                 }
                 else {
-                    weekDay=0;
+                    let flaged = false;
+                    weekDay = 0;
                     day++;
                     tableDays.push(
-                    <DataItem day={day}/>
+                        <DataItem day={day} flaged={flaged} />
                     );
                 }
             }
@@ -114,18 +143,18 @@ class Calendar extends React.Component{
         return tableWeeks;
     }
 
-    render(){
+    render() {
 
-        return(
-                <div className="calendarContainer">
-                    <div className="navCalendar">
-                        <button className="prevMonthBtn calendarBtn" onClick={this.prevMonth} >◄</button>
-                        <div className="monthName">{this.getMonthName()}</div>
-                        <button className="nextMonthBtn calendarBtn" onClick={this.nextMonth}>►</button>
-                    </div>
-                    <table>
-                        <thead className="calendarHead">
-                          <tr>
+        return (
+            <div className="calendarContainer">
+                <div className="navCalendar">
+                    <button className="prevMonthBtn calendarBtn" onClick={this.prevMonth} >◄</button>
+                    <div className="monthName">{this.getMonthName() + ", " + this.state.date.getFullYear()}</div>
+                    <button className="nextMonthBtn calendarBtn" onClick={this.nextMonth}>►</button>
+                </div>
+                <table>
+                    <thead className="calendarHead">
+                        <tr>
                             <td>Sun</td>
                             <td>Mon</td>
                             <td>Tue</td>
@@ -133,14 +162,14 @@ class Calendar extends React.Component{
                             <td>Thu</td>
                             <td>Fri</td>
                             <td>Sat</td>
-                          </tr>
-                        </thead>
-                        <tbody>{this.buildMonthTable()}</tbody>
-                    </table>
+                        </tr>
+                    </thead>
+                    <tbody>{this.buildMonthTable()}</tbody>
+                </table>
 
-                </div>
-          );
+            </div>
+        );
     }
 }
 
-  export default Calendar; 
+export default Calendar; 
