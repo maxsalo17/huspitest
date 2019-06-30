@@ -1,6 +1,6 @@
 import React from 'react';
 import './Calendar.css';
-//import DateItemDetailed from '../DateItemDetailed/DateItemDetailed.js';
+//import DateItemDetailed from '../DateItemDetailed/DateItemDetailed';
 import DateItem from '../DateItem/DateItem';
 
 
