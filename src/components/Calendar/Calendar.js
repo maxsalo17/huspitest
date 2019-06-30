@@ -1,77 +1,7 @@
 import React from 'react';
 import './Calendar.css';
-import Modal from '../Modal/Modal';
-
-class DataItem extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state={
-        }
-    }
-    
-    setMark = (mark) => {
-        this.setState({
-            isMarked: mark
-        })
-    }
-
-    showModal = () => {
-        this.setState({
-            showModal: true
-        });
-
-    }
-
-    closeModal = () => {
-        this.setState({
-            showModal: false
-        });
-    }
-
-    saveModal = (name) => {
-        this.setState({
-            note: name
-        }); 
-        this.setMark(true);
-        this.closeModal();
-    }
-
-   
-
-
-    render() {
-        let itemClass = "dateContainer";
-        let isMarked = this.state.isMarked;
-        let isDisabled = this.props.isDisabled;
-        isDisabled ? itemClass = "disabled" : (isMarked ? itemClass = "dateContainer marked" : itemClass = "dateContainer");
-        return (
-            <div>
-                <div className={itemClass} onClick={this.showModal}>
-                    <div 
-                        className="tooltip">
-                            <p>Events:</p>
-                            <p>{this.state.note}</p>
-                    </div>
-                    <div 
-                        className="dateDay">
-                            {this.props.day}
-                    </div>    
-                </div>
-                <Modal 
-                    name="Add/Edit note" 
-                    submitText="Save" 
-                    text={this.state.note} 
-                    cancelText="Cancel" 
-                    onAccept={this.saveModal} 
-                    onClose={this.closeModal} 
-                    isShown={this.state.showModal} 
-                />
-            </div>
-        );
-    }
-}
-
+//import DateItemDetailed from '../DateItemDetailed/DateItemDetailed.js';
+import DateItem from '../DateItem/DateItem';
 
 
 class Calendar extends React.Component {
@@ -137,7 +67,7 @@ class Calendar extends React.Component {
                 let itemKey = l + "" + i + "" + day + "" + this.getMonth + "" + this.getFullYear;
                 if (i < weekDay || day >= monthLength) {
                     tableDays.push(
-                       <td> <DataItem 
+                       <td> <DateItem
                             key={ itemKey } 
                             isDisabled={ true } 
                             isMarked={ false } 
@@ -148,7 +78,7 @@ class Calendar extends React.Component {
                     weekDay = 0;
                     day++;
                     tableDays.push(
-                        <td><DataItem 
+                        <td><DateItem
                             key={itemKey} 
                             day={day}
                         /></td>

@@ -1,0 +1,61 @@
+.calendarContainer{
+    background: #f9f9f9;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .calendarHead{
+    padding: 20px 0px;
+    color: #4b4a4a;
+    font-size: 18px;
+    font-weight: bold;
+  
+  }
+  
+  .calendarHead tr td{
+    padding: 15px 0px;
+  }
+    
+  .dateContainer {
+    padding: 10px;
+    width: 100px;
+    height: 100px;
+    text-align: left;
+    background: #e7e7e7;
+    transition: .4s;
+    cursor: pointer;
+    overflow-y: hidden;
+    
+  }
+  
+  .dateContainer:hover{
+    background: #cecece;
+    transition: .4s;
+  }
+  
+
+  .dateDay {
+
+    font-weight: bold;
+    color: #040404;
+    font-size: 16px;
+    cursor: pointer;
+    
+  }
+  
+  
+  .dateContainer p {
+      padding: 0px;
+      margin: 0px;
+  }
+    
+  .disabled{
+    display: none;
+  }
+       
+  .note{    
+    font-size: 14px;
+    color: crimson;
+    font-weight: bold;
+    word-wrap: break-word;
+  }
