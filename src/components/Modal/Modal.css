@@ -73,7 +73,7 @@
 .modalNav{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     margin: 5px;
 }
 
@@ -82,9 +82,11 @@
     border-radius: 75px;
     background: crimson;
     color: #f9f9f9;
+    margin: 0px 20px;
 }
 
 .modalCancel{
     padding: 10px 30px;
     border-radius: 75px;
+    margin: 0px 20px;
 }

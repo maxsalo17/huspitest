@@ -35,11 +35,10 @@ class DataItem extends React.Component {
     saveModal = (name) => {
         this.setState({
             note: name
-        },
-        function(){
-            return this.state.note;
         }
-    );
+        );
+        console.log("Name="+name);
+        console.log("state"+this.state.note);
         
         this.setFlaged();
         this.closeModal();
@@ -97,6 +96,10 @@ class Calendar extends React.Component {
         return months[this.state.date.getMonth()];
     }
 
+    getMonth = () =>{
+        return this.state.date.getMonth();
+    }
+
     nextMonth = () => {
 
         this.setState({
@@ -128,10 +131,10 @@ class Calendar extends React.Component {
         for (let l = 0; l < weeks; l++) {
             tableDays = [];
             for (let i = 0; i < days; i++) {
-
+                let itemKey = day+""+l+""+i+""+this.getMonth+""+this.getFullYear;
                 if (i < weekDay || day >= daysNum) {
                     tableDays.push(
-                        <DataItem disabled={true} flaged={false} />
+                        <DataItem key={itemKey} disabled={true} flaged={false} />
                     );
                 }
                 else {
@@ -139,7 +142,7 @@ class Calendar extends React.Component {
                     weekDay = 0;
                     day++;
                     tableDays.push(
-                        <DataItem day={day} flaged={flaged} />
+                        <DataItem key={itemKey} day={day} flaged={flaged} />
                     );
                 }
             }

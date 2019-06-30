@@ -64,8 +64,9 @@
         width: 200px;
         padding: 10px;
         margin-left: -25px;
-        font-size: 20px;
+        font-size: 16px;
         z-index: 2000;
+        word-wrap: break-word;
     }
     .dateContainer:hover .tooltip {
         display: inline; 
