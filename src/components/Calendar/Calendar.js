@@ -6,20 +6,18 @@ class DataItem extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
+        this.state={
         }
     }
-
-    setFlaged = () => {
+    
+    setMark = (mark) => {
         this.setState({
-            flaged: !this.state.flaged
+            isMarked: mark
         })
     }
 
     showModal = () => {
-
         this.setState({
-            ...this.state,
             showModal: true
         });
 
@@ -27,7 +25,6 @@ class DataItem extends React.Component {
 
     closeModal = () => {
         this.setState({
-            ...this.state,
             showModal: false
         });
     }
@@ -35,12 +32,8 @@ class DataItem extends React.Component {
     saveModal = (name) => {
         this.setState({
             note: name
-        }
-        );
-        console.log("Name="+name);
-        console.log("state"+this.state.note);
-        
-        this.setFlaged();
+        }); 
+        this.setMark(true);
         this.closeModal();
     }
 
@@ -48,21 +41,33 @@ class DataItem extends React.Component {
 
 
     render() {
-        let Name = "dateContainer";
-        let isFlaged = this.state.flaged;
-        let disabled = this.props.disabled;
-        disabled ? Name = "disabled" : (isFlaged ? Name = "dateContainer flaged" : Name = "dateContainer");
+        let itemClass = "dateContainer";
+        let isMarked = this.state.isMarked;
+        let isDisabled = this.props.isDisabled;
+        isDisabled ? itemClass = "disabled" : (isMarked ? itemClass = "dateContainer marked" : itemClass = "dateContainer");
         return (
-            <td>
-                <div className={Name} onClick={this.showModal}>
-                    <div className="tooltip">
-                        <p>Events:</p>
-                        <p>{this.state.note}</p>
+            <div>
+                <div className={itemClass} onClick={this.showModal}>
+                    <div 
+                        className="tooltip">
+                            <p>Events:</p>
+                            <p>{this.state.note}</p>
                     </div>
-                    <div className="dateDay">{this.props.day}</div>    
+                    <div 
+                        className="dateDay">
+                            {this.props.day}
+                    </div>    
                 </div>
-                <Modal name="Add/Edit note" submitText="Save" text={this.state.note} cancelText="Cancel" onSave={this.saveModal} onClose={this.closeModal} isShown={this.state.showModal} />
-            </td>
+                <Modal 
+                    name="Add/Edit note" 
+                    submitText="Save" 
+                    text={this.state.note} 
+                    cancelText="Cancel" 
+                    onAccept={this.saveModal} 
+                    onClose={this.closeModal} 
+                    isShown={this.state.showModal} 
+                />
+            </div>
         );
     }
 }
@@ -91,9 +96,8 @@ class Calendar extends React.Component {
     }
 
     getMonthName = () => {
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-        return months[this.state.date.getMonth()];
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return monthNames[this.state.date.getMonth()];
     }
 
     getMonth = () =>{
@@ -101,27 +105,26 @@ class Calendar extends React.Component {
     }
 
     nextMonth = () => {
-
         this.setState({
             date: new Date(this.state.date.getFullYear(), this.state.date.getMonth() + 1, 1)
         });
-
-
-
     }
 
     prevMonth = () => {
-
         this.setState({
             date: new Date(this.state.date.getFullYear(), this.state.date.getMonth() - 1, 1)
         });
+    }
 
-
+    currentMonth = () => {
+        this.setState({
+            date: new Date()
+        });
     }
 
     buildMonthTable = () => {
         let weekDay = this.getFirstWeekDay();
-        let daysNum = this.getDaysNum();
+        let monthLength = this.getDaysNum();
         const weeks = 6;
         const days = 7;
         let day = 0;
@@ -131,18 +134,24 @@ class Calendar extends React.Component {
         for (let l = 0; l < weeks; l++) {
             tableDays = [];
             for (let i = 0; i < days; i++) {
-                let itemKey = day+""+l+""+i+""+this.getMonth+""+this.getFullYear;
-                if (i < weekDay || day >= daysNum) {
+                let itemKey = l + "" + i + "" + day + "" + this.getMonth + "" + this.getFullYear;
+                if (i < weekDay || day >= monthLength) {
                     tableDays.push(
-                        <DataItem key={itemKey} disabled={true} flaged={false} />
+                       <td> <DataItem 
+                            key={ itemKey } 
+                            isDisabled={ true } 
+                            isMarked={ false } 
+                        /></td>
                     );
                 }
                 else {
-                    let flaged = false;
                     weekDay = 0;
                     day++;
                     tableDays.push(
-                        <DataItem key={itemKey} day={day} flaged={flaged} />
+                        <td><DataItem 
+                            key={itemKey} 
+                            day={day}
+                        /></td>
                     );
                 }
             }
@@ -157,9 +166,19 @@ class Calendar extends React.Component {
         return (
             <div className="calendarContainer">
                 <div className="navCalendar">
-                    <button className="prevMonthBtn calendarBtn" onClick={this.prevMonth} >◄</button>
-                    <div className="monthName">{this.getMonthName() + ", " + this.state.date.getFullYear()}</div>
-                    <button className="nextMonthBtn calendarBtn" onClick={this.nextMonth}>►</button>
+                    <button 
+                        className="prevMonthBtn calendarBtn" 
+                        onClick={this.prevMonth} 
+                    >◄</button>
+                    <div 
+                        className="monthName"
+                        onClick={this.currentMonth}>
+                        {this.getMonthName() + ", " + this.state.date.getFullYear()}
+                    </div>
+                    <button 
+                        className="nextMonthBtn calendarBtn" 
+                        onClick={this.nextMonth}
+                    >►</button>
                 </div>
                 <table>
                     <thead className="calendarHead">

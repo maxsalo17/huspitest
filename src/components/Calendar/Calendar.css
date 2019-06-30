@@ -1,123 +1,134 @@
-
 .calendarContainer{
-    background: #f9f9f9;
-    padding: 20px;
-    text-align: center;
-  }
+  background: #f9f9f9;
+  padding: 20px;
+  text-align: center;
+}
+
+.calendarHead{
+  padding: 20px 0px;
+  color: #4b4a4a;
+  font-size: 18px;
+  font-weight: bold;
+
+}
+
+.calendarHead tr td{
+  padding: 15px 0px;
+}
   
-  .calendarHead{
-    padding: 20px 0px;
-    color: #4b4a4a;
-    font-size: 18px;
+.dateContainer {
+  
+  width: 50px;
+  padding-top: 100%;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  background: #f9f9f9;
+  transition: .4s;
+  cursor: pointer;
+}
+
+.dateContainer:hover{
+  background: #cecece;
+  transition: .4s;
+}
+
+.marked::after{
+  background: crimson;
+  display: block;
+  content: " ";
+  width: 100%;
+  height: 4px;
+  margin-top: -4px;
+}
+
+.dateDay {
+  display: inline-block;
+  position: absolute;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: #040404;
+  font-size: 16px;
+  margin: 14px;
+  cursor: pointer;
+}
+
+.dateContainer .tooltip {
+    display: none;
+    border: none;       
+    text-align: left;
+    width: auto;
+    max-width: 200px;
+    padding: 10px;
+    margin-left: -25px;
+    font-size: 16px;
+    z-index: 2000;
+    word-wrap: break-word;
+}
+
+.dateContainer:hover .tooltip {
+    display: inline; 
+    position: absolute; 
+    background: crimson;
+    color: whitesmoke;
+}
+
+.dateContainer p:first-child{
     font-weight: bold;
-  
-  }
-  
-  .calendarHead tr td{
-    padding: 15px 0px;
-  }
-  
-  .dateContainer {
-    
-      width: 50px;
-      padding-top: 100%;
-      position: relative;
-      text-align: center;
-      vertical-align: middle;
-      background: #f9f9f9;
-      transition: .4s;
-      cursor: pointer;
-    }
-    
-    .dateContainer:hover{
-      background: #cecece;
-      transition: .4s;
-    }
-  
-    .flaged::after{
-      background: crimson;
-      display: block;
-      content: " ";
-      width: 100%;
-      height: 4px;
-      margin-top: -4px;
-    }
+}
 
-    .dateDay {
-      display: inline-block;
-      position: absolute;
-      margin: 0 auto;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      color: #040404;
-      font-size: 16px;
-      margin: 14px;
-      cursor: pointer;
-    }
+.dateContainer p {
+    padding: 0px;
+    margin: 0px;
+}
 
-    .dateContainer .tooltip {
-        display: none;
-        border: none;       
-        text-align: left;
-        width: 200px;
-        padding: 10px;
-        margin-left: -25px;
-        font-size: 16px;
-        z-index: 2000;
-        word-wrap: break-word;
-    }
-    .dateContainer:hover .tooltip {
-        display: inline; 
-        position: absolute; 
-        background: crimson;
-        color: whitesmoke;
-    }
-    .dateContainer p:first-child{
-        font-weight: bold;
-
-    }
-    .dateContainer p {
-        padding: 0px;
-        margin: 0px;
-    }
-    
-    .dateDay::before{
-      content: attr(data-title);
-      display: block;
-      position: absolute;
-      color: #4b4a4a;
-      top: 20px;
-    }
+.dateDay::before{
+  content: attr(data-title);
+  display: block;
+  position: absolute;
+  color: #4b4a4a;
+  top: 20px;
+}
   
-    .disabled{
-      display: none;
-    }
+.disabled{
+  display: none;
+}
   
-    .navCalendar{
-        margin: 10px;
-      display: flex;
-      justify-content: space-between;
-    }
+.navCalendar{
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+}
   
-    .monthName{
-      font-size: 20px;
-      color: crimson;
-      align-self: center;
-    }
+.monthName{
+  padding: 4px;
+  transition: .4s;
+  font-size: 20px;
+  color: crimson;
+  align-self: center;
+  cursor: pointer;
+}
 
-    .calendarBtn{
-        width: 40px;
-        height: 40px;
-        color: crimson;
-        background: transparent;
-        border: none;
-        transition: .4s;
-    }
+.monthName:hover{
+  transition: .4s;
+  color: #f9f9f9;
+  background: crimson;
+}
 
-    .calendarBtn:hover{
-        transition: .4s;
-        background: crimson;
-        color: #f9f9f9;
-    }
+.calendarBtn{
+    width: 40px;
+    height: 40px;
+    color: crimson;
+    background: transparent;
+    border: none;
+    transition: .4s;
+}
+
+.calendarBtn:hover{
+    transition: .4s;
+    background: crimson;
+    color: #f9f9f9;
+}
